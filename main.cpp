@@ -16,4 +16,5 @@ int main(int argc, char const *argv[]) {
   myBST->insert(newStu3);
   cout << "inserted students" << endl;
   cout << myBST->search(newStu3) << endl;
+  //changed
 }
