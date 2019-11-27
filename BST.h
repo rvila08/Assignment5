@@ -47,7 +47,7 @@ class BST{
     TreeNode<T> *root;
     TreeNode<T>* search(T value);
     void insert(T value);
-    bool deleteNode(T value);
+    T deleteNode(T value);
     TreeNode<T>* getSuccessor(TreeNode<T> *d);
 
     //delete placeholder
@@ -123,7 +123,6 @@ void BST<T>::insert(T value){
   TreeNode<T> *node = new TreeNode<T>(value);
 
   if(root == NULL){   //empty tree
-    cout << "We have an empty tree" << endl;
     root = node;
   }
   else{
@@ -136,21 +135,17 @@ void BST<T>::insert(T value){
 
       if(value->operator<(current->key)){
         //go left
-        cout << "going left" << endl;
         current = current->left;
 
         if(current==NULL){
-          cout << "inserted" << endl;
           parent->left = node;
           break;
         }
       }
       else{
-        cout << "going right" << endl;
         current = current->right;
 
         if(current== NULL){
-          cout << "inserted" << endl;
           parent->right = node;
           break;
         }
@@ -186,10 +181,10 @@ TreeNode<T>* BST<T>::search(T value){
 }
 
 template <class T>
-bool BST<T>::deleteNode(T value){
+T BST<T>::deleteNode(T value){
 
   if(root == NULL){
-    return false;
+    return nullptr;
   }
   TreeNode<T> *parent = root;
   TreeNode<T> *current = root;
@@ -209,18 +204,22 @@ bool BST<T>::deleteNode(T value){
       current = current->right;
     }
     if(current == NULL){
-      return false;
-    } // value doesn't exist
+      return nullptr;
+    }
+  } // value doesn't exist
 
     //if we make it here, then we found the node to be deleted
     if(current->left== NULL && current->right== NULL){
-      if(current== root)
-        root == NULL;
+      if(current== root){
+        root = NULL;
+      }
       else if(isLeft){
-        parent->left == NULL;
+        parent->left = NULL;
       }
       else{
-        parent->right == NULL;
+        if(parent->right == current){
+        }
+        parent->right = NULL;
       }
     }
     else if(current->right== NULL){//node to be deleted has one child, it's a left (no right child)
@@ -261,8 +260,7 @@ bool BST<T>::deleteNode(T value){
       }
       successor->left = current ->left;
     }
-  }
-  return true;
+  return current->key;
 }
 
 template <class T>

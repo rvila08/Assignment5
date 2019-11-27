@@ -36,9 +36,11 @@ bool MasterStudent::option7(Student* newStu){
 }
 
 bool MasterStudent::option8(Student* newStu){
-  if(stuBST->deleteNode(newStu)){
-    newStu->rollbackCommand = 1; //insert in rollback is 1
-    insertRollback(newStu);
+  Student* deletedStu = stuBST->deleteNode(newStu);
+  if(deletedStu!=nullptr){
+    deletedStu->rollbackCommand = 1; //insert in rollback is 1
+    cout << deletedStu->studentID << endl;
+    insertRollback(deletedStu);
     return true;
   }
   else{
@@ -55,7 +57,8 @@ TreeNode<Student*>* MasterStudent::findStu(int ID){
 void MasterStudent::insertRollback(Student* stu){
   stuRollback->insertFront(stu);
   if(stuRollback->getSize()>5){
-    stuRollback->deletePos(stuRollback->getSize());
+    cout << "Rollback size bigger than 5" << endl;
+    stuRollback->deletePos(stuRollback->getSize()-1);
   }
 }
 

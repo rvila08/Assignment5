@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char const *argv[]) {
   MasterStudent* studentTree = new MasterStudent();
   MasterFaculty* facultyTree = new MasterFaculty();
-  
+
   cout << "Boats n hoes" << endl;
   bool programRunning = true;
   int userChoice = 0;
@@ -102,7 +102,8 @@ int main(int argc, char const *argv[]) {
       cin >> facID;
       TreeNode<Faculty*>*fac1 = facultyTree->findFac(facID);
       if(fac1!=nullptr){
-        cout <<"printing advisor list " << endl;
+        cout << endl;
+        cout << "Advisor's List: " << endl;
         for(int i=0;i<fac1->key->adviseeList->getSize();++i){
           studentTree->printStudent(studentTree->findStu(fac1->key->adviseeList->returnPos(i)));
         }
