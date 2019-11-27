@@ -22,11 +22,15 @@ public:
   bool addAdvisee(int ID, int facID);
   void insertRollback(Faculty* fac);
   void rollback();
+  void writeToFile(TreeNode<Faculty*>* node,string fileName);
+  void readInTree(string fileName);
   BST<Faculty*> *facBST;
   TreeNode<Faculty*>* findFac(int ID);
   ifstream fileStream;
   GenLinkedList<Faculty*>* facRollback;
 private:
   Faculty* newFac;
+  ofstream outputstream;
+  int lineCount;
 };
 #endif

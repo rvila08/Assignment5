@@ -76,3 +76,65 @@ void MasterStudent::rollback(){
     cout << "Rollback command aborted." << endl;
   }
 }
+
+void MasterStudent::readInTree(string fileName){
+  int ID = 0;
+  string name = "";
+  string level = "";
+  string major = "";
+  double gpa = 0.0;
+  int advisorID = 0;
+  lineCount = 0;
+  string line;
+  fileStream.open(fileName);
+  if(fileStream.is_open()){
+    cout << "Reading file" << endl;
+    while(getline(fileStream, line)){
+      lineCount++;
+      if(lineCount%6==1){ //lst line on file
+        ID = stoi(line);
+      }
+      if(lineCount%6==2){ //2nd line on file
+        name = line;
+      }
+      if(lineCount%6==3){ //3rd line on file
+        level = line;
+      }
+      if(lineCount%6==4){ //4th file on file
+        major = line;
+      }
+      if(lineCount%6==5){
+        gpa = stod(line); //5th line on file
+      }
+      if(lineCount%6==0){
+        advisorID = stoi(line);
+        Student* newStu = new Student(ID,name,level,major,gpa,advisorID); //6th line on file
+        stuBST->insert(newStu);
+      }
+    }
+    cout << "Students inserted into tree" << endl;
+  }
+  else{
+    cout << "Student table file does not exist. Students were not added to tree" << endl;
+  }
+}
+
+void MasterStudent::writeToFile(TreeNode<Student*>* node,string fileName){
+  if(node==NULL){
+    return;
+  }
+  outputstream.open(fileName,std::ios_base::app);
+  outputstream << node->key->studentID << endl;
+  outputstream << node->key->name << endl;
+  outputstream << node->key->level << endl;
+  outputstream << node->key->major << endl;
+  outputstream << node->key->gpa << endl;
+  outputstream << node->key->advisorID << endl;
+  outputstream.close();
+  if(node->left!=NULL){
+    writeToFile(node->left,fileName); //call the left subtree
+  }
+  if(node->right!=NULL){
+    writeToFile(node->right,fileName); //call the right subtree
+  }
+}

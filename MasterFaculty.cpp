@@ -87,3 +87,55 @@ void MasterFaculty::insertRollback(Faculty* fac){
     facRollback->deletePos(facRollback->getSize());
   }
 }
+
+void MasterFaculty::writeToFile(TreeNode<Faculty*>* node,string fileName){
+  if(node==NULL){
+    return;
+  }
+  outputstream.open(fileName,std::ios_base::app);
+  outputstream << node->key->facultyID << endl;
+  outputstream << node->key->name << endl;
+  outputstream << node->key->level << endl;
+  outputstream << node->key->department << endl;
+  outputstream.close();
+  if(node->left!=NULL){
+    writeToFile(node->left,fileName);
+  }
+  if(node->right!=NULL){
+    writeToFile(node->right,fileName);
+  }
+}
+
+void MasterFaculty::readInTree(string fileName){
+  int ID = 0;
+  string name = "";
+  string level = "";
+  string department = "";
+  lineCount = 0;
+  string line;
+  fileStream.open(fileName);
+  if(fileStream.is_open()){
+    cout << "Reading file" << endl;
+    while(getline(fileStream, line)){
+      lineCount++;
+      if(lineCount%4==1){
+        ID = stoi(line);
+      }
+      if(lineCount%4==2){
+        name = line;
+      }
+      if(lineCount%4==3){
+        level = line;
+      }
+      if(lineCount%4==0){
+        department = line;
+        Faculty* newFac = new Faculty(ID,name,level,department);
+        facBST->insert(newFac);
+      }
+    }
+    cout << "Faculty members inserted into tree" << endl;
+  }
+  else{
+    cout << "Faculty table file does not exist. Faculty members were not added to tree" << endl;
+  }
+}

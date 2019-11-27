@@ -24,10 +24,14 @@ public:
   GenLinkedList<Student*>* stuRollback;
   void insertRollback(Student* stu);
   void rollback();
+  void writeToFile(TreeNode<Student*>* node,string fileName);
+  void readInTree(string fileName);
+  ofstream outputstream;
 private:
   Student* newStu;
   int rollbackCommand;
-
+  int count = 0;
+  int lineCount;
 
 };
 #endif

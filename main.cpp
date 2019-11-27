@@ -2,6 +2,7 @@
 #include "MasterStudent.h"
 #include "MasterFaculty.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -13,6 +14,8 @@ int main(int argc, char const *argv[]) {
   bool programRunning = true;
   int userChoice = 0;
 
+  studentTree->readInTree("studentTable.txt");
+  facultyTree->readInTree("facultyTable.txt");
   while (programRunning)
   {
     cout << endl;
@@ -286,6 +289,14 @@ int main(int argc, char const *argv[]) {
       break;
     }
   }
+  ofstream outputstream;
+  outputstream.open("studentTable.txt", std::ofstream::out | std::ofstream::trunc);
+  outputstream.close();
+  studentTree->writeToFile(studentTree->stuBST->root,"studentTable.txt");
+  ofstream outputstream1;
+  outputstream1.open("facultyTable.txt", std::ofstream::out | std::ofstream::trunc);
+  outputstream1.close();
+  facultyTree->writeToFile(facultyTree->facBST->root,"facultyTable.txt");
     //***********
     //IF A FIND STUDENT OR A FIND FACULTY == nulltr then continue in the while loop
     //***********
