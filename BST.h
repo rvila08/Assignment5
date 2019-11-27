@@ -39,12 +39,13 @@ TreeNode<T>::~TreeNode(){
 template <class T>
 class BST{
   private:
-    TreeNode<T> *root;
+
   public:
     BST();
     ~BST();
 
-    bool search(T value);
+    TreeNode<T> *root;
+    TreeNode<T>* search(T value);
     void insert(T value);
     bool deleteNode(T value);
     TreeNode<T>* getSuccessor(TreeNode<T> *d);
@@ -72,7 +73,7 @@ BST<T>::~BST(){
 template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
 
-  if(node == NULL){
+  if(node == nullptr){
     return;
   }
   recPrint(node->left);
@@ -122,6 +123,7 @@ void BST<T>::insert(T value){
   TreeNode<T> *node = new TreeNode<T>(value);
 
   if(root == NULL){   //empty tree
+    cout << "We have an empty tree" << endl;
     root = node;
   }
   else{
@@ -132,21 +134,23 @@ void BST<T>::insert(T value){
     while(true){
       parent = current;
 
-      if(value < current->key){
+      if(value->operator<(current->key)){
         //go left
         cout << "going left" << endl;
         current = current->left;
 
-        if(current == NULL){
+        if(current==NULL){
+          cout << "inserted" << endl;
           parent->left = node;
           break;
         }
       }
       else{
+        cout << "going right" << endl;
         current = current->right;
 
-        if(current == NULL){
-          cout << "going right" << endl;
+        if(current== NULL){
+          cout << "inserted" << endl;
           parent->right = node;
           break;
         }
@@ -158,27 +162,27 @@ void BST<T>::insert(T value){
 }
 
 template <class T>
-bool BST<T>::search(T value){
+TreeNode<T>* BST<T>::search(T value){
 
   if(root == NULL){
-    return false;
+    return NULL;
   }
   //tree is not empty
   else{
     TreeNode<T> *current = root;
-    while(current->key!=value){
-      if(value < current->key){
+    while(value->operator!=(current->key)){
+      if(value->operator<(current->key)){
         current = current ->left;
       }
       else{
         current = current ->right;
       }
-      if(current == NULL)
-        return false;
+      if(current == NULL){
+        return NULL;
+      }
     }
+    return current;
   }
-
-  return true;
 }
 
 template <class T>
@@ -192,9 +196,9 @@ bool BST<T>::deleteNode(T value){
   bool isLeft = true;
 
   //let's attempt to find node to be deleted
-  while(current->key != value){
+  while(current->key->operator!= (value)){
     parent = current;
-    if(value < current->key){
+    if(value->operator<(current->key)){
       //go left
       isLeft = true;
       current = current ->left;
@@ -209,8 +213,8 @@ bool BST<T>::deleteNode(T value){
     } // value doesn't exist
 
     //if we make it here, then we found the node to be deleted
-    if(current->left == NULL && current->right == NULL){
-      if(current == root)
+    if(current->left== NULL && current->right== NULL){
+      if(current== root)
         root == NULL;
       else if(isLeft){
         parent->left == NULL;
@@ -219,8 +223,8 @@ bool BST<T>::deleteNode(T value){
         parent->right == NULL;
       }
     }
-    else if(current->right == NULL){//node to be deleted has one child, it's a left (no right child)
-      if(current == root){
+    else if(current->right== NULL){//node to be deleted has one child, it's a left (no right child)
+      if(current== root){
         root = current->left;
       }
       else if(isLeft){
@@ -231,8 +235,8 @@ bool BST<T>::deleteNode(T value){
       }
     }
 
-    else if(current->left == NULL){//node to be deleted has one child, it's a right (no left child)
-      if(current == root){
+    else if(current->left== NULL){//node to be deleted has one child, it's a right (no left child)
+      if(current== root){
         root = current->right;
       }
       else if(isLeft){
@@ -247,7 +251,7 @@ bool BST<T>::deleteNode(T value){
       //at this state the cortisol increase exponentially
 
       TreeNode<T> *successor = getSuccessor(current);
-      if(current == root)
+      if(current== root)
         root = successor;
       else if(isLeft){
         parent->left = successor;

@@ -16,33 +16,37 @@ Student::Student(int stuID, string n, string lvl, string maj, double gpaa, int a
   advisorID = adID;
 }
 
+Student::Student(int stuID){
+  studentID = stuID;
+}
+
 Student::~Student(){
-  
+
 }
 
-bool Student::operator=(Student s){
-  if(s.studentID == this->studentID){
+bool Student::operator==(Student* s){
+  if(s->studentID == this->studentID){
     return true;
   }
   return false;
 }
 
-bool Student::operator<(Student s){
-  if(this->studentID < s.studentID){
+bool Student::operator<(Student* s){
+  if(this->studentID < s->studentID){
     return true;
   }
   return false;
 }
 
-bool Student::operator>(Student s){
-  if(this->studentID > s.studentID){
+bool Student::operator>(Student* s){
+  if(this->studentID > s->studentID){
     return true;
   }
   return false;
 }
 
-bool Student::operator!=(Student s){
-  if(s.studentID == this->studentID){
+bool Student::operator!=(Student* s){
+  if(s->studentID == this->studentID){
     return false;
   }
   return true;
