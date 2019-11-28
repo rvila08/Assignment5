@@ -16,6 +16,7 @@ int main(int argc, char const *argv[]) {
 
   studentTree->readInTree("studentTable.txt");
   facultyTree->readInTree("facultyTable.txt");
+  facultyTree->linkAdvisees(studentTree->stuBST->root);
   while (programRunning)
   {
     cout << endl;
@@ -215,7 +216,7 @@ int main(int argc, char const *argv[]) {
         TreeNode<Faculty*>* fac = facultyTree->findFac(stu->key->advisorID);
         if(fac!=nullptr){
           if(facultyTree->removeAdvisee(stuID,fac)){
-            cout << "Advisee removed from advisor list" << endl;
+            cout << "Advisee removed from previous advisor list" << endl;
           }
           else{
             cout << "Advisee is not on a previous advisor list" << endl;
@@ -243,11 +244,13 @@ int main(int argc, char const *argv[]) {
     {
       int stuID = 0;
       int facID = 0;
-      cout << "Enter student ID" << endl;
-      cin >> stuID;
-      cout << "Enter faculty member's id. Student ID will be removed from this advisee list." << endl;
+      cout << "Enter faculty ID" << endl;
       cin >> facID;
       TreeNode<Faculty*>* fac = facultyTree->findFac(facID);
+      cout << "Advisee ID's on this list: " << endl;
+      fac->key->adviseeList->printList();
+      cout << "Enter student's ID to be removed." << endl;
+      cin >> stuID;
       if(fac!=nullptr){
         if(facultyTree->removeAdvisee(stuID,fac)){
           cout << "Advisee removed from advisor list" << endl;

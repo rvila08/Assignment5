@@ -5,6 +5,7 @@
 #include "Faculty.h"
 #include "BST.h"
 #include "GenLinkedList.h"
+#include "Student.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
   void rollback();
   void writeToFile(TreeNode<Faculty*>* node,string fileName);
   void readInTree(string fileName);
+  void linkAdvisees(TreeNode<Student*>* node);
   BST<Faculty*> *facBST;
   TreeNode<Faculty*>* findFac(int ID);
   ifstream fileStream;
@@ -32,5 +34,7 @@ private:
   Faculty* newFac;
   ofstream outputstream;
   int lineCount;
+  int adviseeID = 0;
+  int advisorID = 0;
 };
 #endif

@@ -39,7 +39,7 @@ bool MasterStudent::option8(Student* newStu){
   Student* deletedStu = stuBST->deleteNode(newStu);
   if(deletedStu!=nullptr){
     deletedStu->rollbackCommand = 1; //insert in rollback is 1
-    cout << deletedStu->studentID << endl;
+    cout << "Deleted student: " << deletedStu->studentID << endl;
     insertRollback(deletedStu);
     return true;
   }

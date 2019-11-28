@@ -39,12 +39,16 @@ TreeNode<Faculty*>* MasterFaculty::findFac(int ID){
 }
 
 bool MasterFaculty::option10(Faculty* f){
-  if(facBST->deleteNode(f)){
+  Faculty* deletedFac = facBST->deleteNode(f);
+  if(deletedFac!=nullptr){
+    deletedFac->rollbackCommand = 1; //insert in rollback is 1
+    cout << "Deleted faculty member: " << deletedFac->facultyID << endl;
+    insertRollback(deletedFac);
     return true;
-    f->rollbackCommand = 1;
-    insertRollback(f);
   }
-  return false;
+  else{
+    return false;
+  }
 }
 
 bool MasterFaculty::addAdvisee(int ID, int facID){
@@ -138,4 +142,20 @@ void MasterFaculty::readInTree(string fileName){
   else{
     cout << "Faculty table file does not exist. Faculty members were not added to tree" << endl;
   }
+}
+
+void MasterFaculty::linkAdvisees(TreeNode<Student*>* node){
+  if(node==NULL){
+    return;
+  }
+  linkAdvisees(node->left);
+  adviseeID = node->key->studentID;
+  advisorID = node->key->advisorID;
+  if(addAdvisee(adviseeID,advisorID)){
+    cout << "Advisee ID: " << adviseeID << " added to Advisor: " << advisorID << endl;
+  }
+  else{
+    cout << "Unable to add Advisee ID: " << adviseeID << " to a list" << endl;
+  }
+  linkAdvisees(node->right);
 }
